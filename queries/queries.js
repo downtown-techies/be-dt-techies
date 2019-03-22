@@ -1,11 +1,13 @@
 const Pool = require('pg').Pool
-const dbPassword = process.env.DP_PASSWORD || '';
-const dbPort = process.env.DP_PORT;
+const dbPassword = process.env.DB_PASSWORD || '';
+const dbPort = process.env.DB_PORT || '';
+const dbName= process.env.DB_NAME;
+const dbUser = process.env.DB_USER;
 
 const pool = new Pool({
-  user: 'blakeburnette2',
+  user: dbUser,
   host: 'localhost',
-  database: 'techies_api',
+  database: dbName,
   password: dbPassword,
   port: dbPort,
 })
