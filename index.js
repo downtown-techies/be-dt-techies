@@ -6,7 +6,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const port = process.env.PORT || 3000;
-const db = require('./queries/queries')
+const db = require('./models/users')
 
 app.use(bodyParser.json())
 app.use(
