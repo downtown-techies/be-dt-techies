@@ -16,7 +16,6 @@ module.exports = {
         sponsors: ['WeWork', 'Indie Developer'],
         contact_email: 'jake@downtowntechies.com',
         contact_ph: '',
-        GroupId: 2,
         createdAt: new Date(),
         updatedAt: new Date()
       }], {});

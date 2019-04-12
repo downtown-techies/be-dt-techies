@@ -9,7 +9,6 @@ module.exports = {
         email: 'email@foo.com',
         active: true,
         type: 'member',
-        UserId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       }], {});

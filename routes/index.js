@@ -8,13 +8,17 @@ router.get('/', function(req, res, next) {
 
 router.post('/users', function(req, res) {
   models.User.create({
+    name: req.body.name,
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
     email: req.body.email,
+    active: req.body.active,
+    type: req.body.type,
   }).then(function(user) {
     res.json(user);
   });
 });
 
-// get all users
 router.get('/users', function(req, res) {
   models.User.findAll({}).then(function(users) {
     res.json(users);
@@ -27,17 +31,16 @@ router.get('/meetups', function(req, res) {
   });
 });
 
-// // get single todo
-// router.get('/todo/:id', function(req, res) {
-//   models.Todo.find({
-//     where: {
-//       id: req.params.id
-//     }
-//   }).then(function(todo) {
-//     res.json(todo);
-//   });
-// });
-// 
+router.get('/users/:id', function(req, res) {
+  models.User.findOne({
+    where: {
+      id: req.params.id
+    }
+  }).then(function(user) {
+    res.json(user);
+  });
+});
+ 
 // // add new todo
 // router.post('/users', function(req, res) {
 //   models.Todo.create({

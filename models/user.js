@@ -7,8 +7,7 @@ module.exports = function(sequelize, DataTypes) {
     email: DataTypes.STRING,
     active: DataTypes.BOOLEAN,
     type: DataTypes.STRING,
-    location: DataTypes.ARRAY(DataTypes.DECIMAL),
-    UserId: DataTypes.INTEGER
+    location: DataTypes.ARRAY(DataTypes.DECIMAL)
   }, {
     classMethods: {
       associate: function(models) {

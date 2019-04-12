@@ -16,8 +16,7 @@ module.exports = function(sequelize, DataTypes) {
     url: DataTypes.STRING,
     sponsors: DataTypes.ARRAY(DataTypes.STRING),
     contact_email: DataTypes.STRING,
-    contact_ph: DataTypes.STRING,
-    GroupId: DataTypes.INTEGER
+    contact_ph: DataTypes.STRING
   }, {
     classMethods: {
       associate: function(models) {

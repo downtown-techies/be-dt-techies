@@ -13,10 +13,13 @@ module.exports = {
         type: Sequelize.STRING
       },
       first_name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        allowNull: true,
       },
       last_name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true,
       },
       email: {
         type: Sequelize.STRING
@@ -28,10 +31,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       location: {
-        type: Sequelize.ARRAY(Sequelize.DECIMAL)
-      },
-      UserId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.ARRAY(Sequelize.DECIMAL),
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
