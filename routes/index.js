@@ -22,8 +22,8 @@ router.get('/users', function(req, res) {
 });
 
 router.get('/meetups', function(req, res) {
-  models.Meetup.findAll({}).then(function(meetups) {
-    res.json(meetups);
+  models.MeetupGroup.findAll({}).then(function(meetupgroups) {
+    res.json(meetupgroups);
   });
 });
 
