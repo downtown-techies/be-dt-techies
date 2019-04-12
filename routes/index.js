@@ -8,12 +8,12 @@ router.get('/', function(req, res, next) {
 
 router.post('/users', function(req, res) {
   models.User.create({
-    name: req.body.name,
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    email: req.body.email,
-    active: req.body.active,
-    type: req.body.type,
+    name: req.name,
+    first_name: req.first_name,
+    last_name: req.last_name,
+    email: req.email,
+    active: req.active,
+    type: req.type,
   }).then(function(user) {
     res.json(user);
   });
