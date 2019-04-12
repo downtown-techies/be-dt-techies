@@ -6,8 +6,6 @@ const dotenv = require('dotenv');
 const port = process.env.PORT || 5000;
 const routes = require('./routes/index.js');
 
-app.use('/', routes);
-
 dotenv.config();
 
 app.use(cookieParser());
@@ -15,5 +13,7 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
+
+app.use('/', routes);
 
 module.exports = app;
