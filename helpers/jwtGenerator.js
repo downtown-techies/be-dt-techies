@@ -1,9 +1,10 @@
 const bodyParser = require('body-parser');
 
 let jwt = require('jsonwebtoken');
-let config = require('./config/jwtConfig.js');
+let publicKey = process.env.UUID_PUBLIC;
 
-class HandlerGenerator {
+module.exports = class HandlerGenerator {
+
   login (req, res) {
     let username = req.body.username;
     let password = req.body.password;
@@ -18,10 +19,9 @@ class HandlerGenerator {
     if (username && password) {
       if (username === mockedUsername && password === mockedPassword) {
         let token = jwt.sign({username: username},
-          config.secret,
+          publicKey,
           { expiresIn: '24h' // expires in 24 hours
-          }
-        );
+          });
         // return the JWT token for the future API calls
         res.json({
           success: true,
