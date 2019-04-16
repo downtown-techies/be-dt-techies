@@ -1,14 +1,10 @@
 const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 
-let jwt = require('jsonwebtoken');
-let publicKey = process.env.UUID_PUBLIC;
-
-module.exports = class HandlerGenerator {
-
-  login (req, res) {
-    res.send(400).json({
-      success: false,
-      message: 'Authentication failed! Please check the request'
+module.exports = function generateToken(uuid) {
+  if (uuid !== undefined) {
+    return token = jwt.sign({}, uuid, {
+      expiresIn: 3600 
     });
-  }
+  };
 }

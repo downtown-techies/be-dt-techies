@@ -1,23 +1,31 @@
-let jwt = require('jsonwebtoken');
-const publicKey = process.env.UUID_PUBLIC;
+const uuidv1 = require('uuid/v1');
+const generateToken = require('../helpers/jwtGenerator.js');
+const jwt = require('jsonwebtoken');
 
-// future
+const v1options = {
+  node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
+  clockseq: 0x1234,
+  msecs: new Date().getTime(),
+  nsecs: 5678
+};
 
-// const uuidv1 = require('uuid/v1');
-// 
-// const v1options = {
-//   node: [0x01, 0x23, 0x45, 0x67, 0x89, 0xab],
-//   clockseq: 0x1234,
-//   msecs: new Date().getTime(),
-//   nsecs: 5678
-// };
-// 
-// console.log(uuidv1(v1options));
-//
-//
+const uuid = uuidv1(v1options);
+ 
+const getToken = (err, apiKey) => {
+  if (err) throw err;
 
-let checkToken = (req, res, next) => {
-  let token = req.body['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
+  let token = generateToken(uuid);
+
+  res.json({
+     apiKey: apiKey,
+     token: token
+  });
+};
+
+const checkToken = (req, res, next) => {
+  const publicKey = process.env.UUID_PUBLIC;
+
+  let token = req.body['x-access-token'] || req.headers['authorization'];
 
   if (token && token.startsWith('Bearer ')) {
     token = token.slice(7, token.length);
