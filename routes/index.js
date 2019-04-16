@@ -1,6 +1,18 @@
 const express = require('express');
 const router = express.Router();
 const models = require('../models/index');
+const middleware = require('../middleware/jwtMiddleware.js');
+const HandlerGenerator = require('../helpers/jwtGenerator.js');
+
+const handlers = new HandlerGenerator();
+
+
+// HERE HERE HERE
+
+//  // Routes & Handlers
+//  app.post('/login', handlers.login);
+//  app.get('/', middleware.checkToken, handlers.index);
+//  app.listen(port, () => console.log(`Server is listening on port: ${port}`));
 
 router.get('/', function(req, res, next) {
   res.json({ title: 'Express' });
