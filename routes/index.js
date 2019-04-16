@@ -6,19 +6,17 @@ const HandlerGenerator = require('../helpers/jwtGenerator.js');
 
 const handlers = new HandlerGenerator();
 
-
-// HERE HERE HERE
-
-//  // Routes & Handlers
-//  app.post('/login', handlers.login);
-//  app.get('/', middleware.checkToken, handlers.index);
-//  app.listen(port, () => console.log(`Server is listening on port: ${port}`));
-
-router.get('/', function(req, res, next) {
+router.get('/', middleware.checkToken, function(req, res, next) {
   res.json({ title: 'Express' });
 });
 
-router.post('/users', function(req, res) {
+router.get('/authenticate', function(req, res, next){
+  res.json({
+    key: 'foo'
+  });
+});
+
+router.post('/users', middleware.checkToken, function(req, res) {
   models.User.create({
     name: req.body.name,
     first_name: req.body.first_name,
@@ -31,13 +29,13 @@ router.post('/users', function(req, res) {
   });
 });
 
-router.get('/users', function(req, res) {
+router.get('/users', middleware.checkToken, function(req, res) {
   models.User.findAll({}).then(function(users) {
     res.json(users);
   });
 });
 
-router.get('/users/:id', function(req, res) {
+router.get('/users/:id', middleware.checkToken, function(req, res) {
   models.User.findOne({
     where: {
       id: req.params.id
@@ -53,7 +51,7 @@ router.get('/meetups', function(req, res) {
   });
 });
 
-router.post('/meetups', function(req, res) {
+router.post('/meetups', middleware.checkToken, function(req, res) {
   models.MeetupGroup.create({
     name: req.body.name,
     address_line_1: req.body.address_line_1,

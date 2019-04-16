@@ -18,6 +18,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.use('/', middleware.checkToken, routes);
+app.use('/', routes);
 
 module.exports = app;
