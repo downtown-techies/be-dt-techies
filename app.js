@@ -20,6 +20,6 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.use('/', middleware.checkToken, handlers.index, routes);
+app.use('/', middleware.checkToken, routes);
 
 module.exports = app;

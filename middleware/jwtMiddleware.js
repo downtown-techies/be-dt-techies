@@ -13,11 +13,13 @@ const publicKey = process.env.UUID_PUBLIC;
 // };
 // 
 // console.log(uuidv1(v1options));
+//
+//
 
 let checkToken = (req, res, next) => {
-  let token = req.headers['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
+  let token = req.body['x-access-token'] || req.headers['authorization']; // Express headers are auto converted to lowercase
+
   if (token && token.startsWith('Bearer ')) {
-    // Remove Bearer from string
     token = token.slice(7, token.length);
   }
 
@@ -36,7 +38,7 @@ let checkToken = (req, res, next) => {
   } else {
     return res.json({
       success: false,
-      message: 'Auth token is not supplied'
+      message: 'Auth Token must be supplied'
     });
   }
 };
