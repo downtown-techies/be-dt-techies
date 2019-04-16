@@ -11,15 +11,10 @@ const v1options = {
 
 const uuid = uuidv1(v1options);
  
-const getToken = (err, apiKey) => {
+const getToken = (err) => {
   if (err) throw err;
 
-  let token = generateToken(uuid);
-
-  res.json({
-     apiKey: apiKey,
-     token: token
-  });
+  return generateToken(uuid);
 };
 
 const checkToken = (req, res, next) => {
@@ -52,5 +47,6 @@ const checkToken = (req, res, next) => {
 };
 
 module.exports = {
+  getToken: getToken,
   checkToken: checkToken
 }
