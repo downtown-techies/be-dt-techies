@@ -18,17 +18,17 @@ const getToken = (err) => {
 };
 
 const checkToken = (req, res, next) => {
-  const publicKey = process.env.UUID_PUBLIC;
-
-  let token = req.body['x-access-token'] || req.headers['authorization'];
+  let token = req.body['authorization'] || req.headers['authorization'];
 
   if (token && token.startsWith('Bearer ')) {
     token = token.slice(7, token.length);
   }
 
   if (token) {
-    jwt.verify(token, publicKey, (err, decoded) => {
+    jwt.verify(token, uuid, (err, decoded) => {
       if (err) {
+        console.log(err);
+
         return res.json({
           success: false,
           message: 'Token is not valid'
