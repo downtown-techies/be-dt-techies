@@ -3,16 +3,18 @@ const router = express.Router();
 const models = require('../models/index');
 const middleware = require('../middleware/jwtMiddleware.js');
 const HandlerGenerator = require('../helpers/jwtGenerator.js');
+const authenticate = require('./authenticate');
 
-const handlers = new HandlerGenerator();
-
-router.get('/', middleware.checkToken, function(req, res, next) {
-  res.json({ title: 'Express' });
+router.get('/', function(req, res, next) {
+  res.json({ api: 'v0.1.0' });
 });
 
-router.get('/authenticate', function(req, res, next){
+router.get('/authenticate', function(req, res){
+  // const response = authenticate(req.params.authKey);
+  const response = authenticate('foo');
+
   res.json({
-    key: 'foo'
+    response
   });
 });
 
@@ -114,3 +116,4 @@ router.post('/meetups', middleware.checkToken, function(req, res) {
 // });
 
 module.exports = router;
+

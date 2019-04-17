@@ -4,19 +4,16 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser')
 let jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
-const port = process.env.PORT || 5000;
+const cors = require('cors');
 const routes = require('./routes/index.js');
 
 let middleware = require('./middleware/jwtMiddleware.js');
 
 dotenv.config();
 
-app.use(cookieParser());
-
-app.use(bodyParser.urlencoded({
+app.use(cors(), bodyParser.urlencoded({
   extended: true
 }));
-app.use(bodyParser.json());
 
 app.use('/', routes);
 
