@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const models = require('../models/index');
 const middleware = require('../middleware/jwtMiddleware.js');
-const HandlerGenerator = require('../helpers/jwtGenerator.js');
 const authenticate = require('./authenticate');
 
 router.get('/', function(req, res, next) {
@@ -10,11 +9,16 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/authenticate', function(req, res){
-  // const response = authenticate(req.params.authKey);
-  const response = authenticate('foo');
+  let token = req.headers.authorization;
+
+  if (token && token.startsWith('Bearer ')) {
+    token = token.slice(7, token.length);
+  }
+
+  const jwtKey = middleware.getToken(token);
 
   res.json({
-    response
+    jwtKey
   });
 });
 

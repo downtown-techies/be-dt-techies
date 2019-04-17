@@ -4,7 +4,7 @@ const publicKey = process.env.PUBLIC_KEY;
 const { getToken } = require('../middleware/jwtMiddleware');
 
 module.exports = function authenticate(authKey) {
-  if (authKey !== undefined && authKey === 'foo') {
+  if (authKey !== undefined && authKey === publicKey) {
     const jwtKey = getToken(); 
 
     return {
