@@ -23,6 +23,8 @@ router.get('/authenticate', function(req, res){
 });
 
 router.post('/users', middleware.checkToken, function(req, res) {
+  console.log('req', req.body);
+
   models.User.create({
     name: req.body.name,
     first_name: req.body.first_name,
