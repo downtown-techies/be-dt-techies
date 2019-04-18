@@ -1,11 +1,11 @@
  {
   "development": {
-    "username": "change",
-    "password": "change",
-    "database": "change",
-    "port": "change",
-    "host": "change",
-    "dialect": "postgres"
+    "username": "",
+    "password": "",
+    "database": "",
+    "port": "",
+    "host": "",
+    "dialect": ""
   },
   "test": {
     "username": "root",
@@ -16,12 +16,6 @@
   },
   "production": {
     "use_env_variable": "DATABASE_URL",
-    "dialect": "postgres",
-    "ssl": true,
-    "dialectOptions":{ 
-      "ssl": {
-        "require":true 
-      } 
-    }
+    "dialect": "postgres"
   }
 }
