@@ -22,7 +22,7 @@ router.get('/authenticate', function(req, res){
   });
 });
 
-router.post('/users', middleware.checkToken, function(req, res) {
+router.post('/users', function(req, res) {
   console.log('req', req.body);
 
   models.User.create({
