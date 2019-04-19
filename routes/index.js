@@ -24,28 +24,51 @@ router.get('/authenticate', function(req, res){
 
 router.post('/users', middleware.checkToken, function(req, res) {
   console.log('req', req.body);
+  const {
+    first_name,
+    last_name,
+    email,
+    address_line_1,
+    address_line_2,
+    address_line_3,
+    address_line_4,
+    city,
+    state,
+    state_abbr,
+    postal_code,
+    country,
+    preferred_contact,
+    ph_number,
+    website,
+    opt_in,
+    active,
+    type
+  } = req.body;
+
+  const name = `${first_name} ${last_name}`;
 
   models.User.create({
-    name: req.body.name,
-    first_name: req.body.first_name,
-    last_name: req.body.last_name,
-    email: req.body.email,
-    address_line_1: req.body.address_line_1,
-    address_line_2: req.body.address_line_2,
-    address_line_3: req.body.address_line_3,
-    address_line_4: req.body.address_line_4,
-    city: req.body.city,
-    state: req.body.state,
-    state_abbr: req.body.state_abbr,
-    postal_code: req.body.postal_code,
-    country: req.body.country,
-    preferred_contact: req.body.preferred_contact,
-    ph_number: req.body.ph_number,
-    website: req.body.website,
-    opt_in: req.body.opt_in,
-    active: req.body.active,
-    type: req.body.type,
+    name: name,
+    first_name: first_name,
+    last_name: last_name,
+    email: email,
+    address_line_1: address_line_1,
+    address_line_2: address_line_2,
+    address_line_3: address_line_3,
+    address_line_4: address_line_4,
+    city: city,
+    state: state,
+    state_abbr: state_abbr,
+    postal_code: postal_code,
+    country: country,
+    preferred_contact: preferred_contact,
+    ph_number: ph_number,
+    website: website,
+    opt_in: opt_in,
+    active: active,
+    type: type,
   }).then(function(user) {
+
     res.json(user);
   });
 });
