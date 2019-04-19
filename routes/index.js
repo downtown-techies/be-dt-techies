@@ -73,7 +73,7 @@ router.post('/users', middleware.checkToken, function(req, res) {
   });
 });
 
-router.get('/users', function(req, res) {
+router.get('/users', middleware.checkToken, function(req, res) {
   models.User.findAll({}).then(function(users) {
     res.json(users);
   });
