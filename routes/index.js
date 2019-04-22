@@ -24,6 +24,7 @@ router.get('/authenticate', function(req, res){
 
 router.post('/users', middleware.checkToken, function(req, res) {
   console.log('req', req.body);
+
   const {
     first_name,
     last_name,
@@ -47,30 +48,44 @@ router.post('/users', middleware.checkToken, function(req, res) {
 
   const name = `${first_name} ${last_name}`;
 
-  models.User.create({
-    name: name,
-    first_name: first_name,
-    last_name: last_name,
-    email: email,
-    address_line_1: address_line_1,
-    address_line_2: address_line_2,
-    address_line_3: address_line_3,
-    address_line_4: address_line_4,
-    city: city,
-    state: state,
-    state_abbr: state_abbr,
-    postal_code: postal_code,
-    country: country,
-    preferred_contact: preferred_contact,
-    ph_number: ph_number,
-    website: website,
-    opt_in: opt_in,
-    active: active,
-    type: type,
-  }).then(function(user) {
+  models.User.findOrCreate({
+    where: {
+      email: email,
+    },
+    where: {
+      ph_number: ph_number,
+    },
+    defaults: {
+      name: name,
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      address_line_1: address_line_1,
+      address_line_2: address_line_2,
+      address_line_3: address_line_3,
+      address_line_4: address_line_4,
+      city: city,
+      state: state,
+      state_abbr: state_abbr,
+      postal_code: postal_code,
+      country: country,
+      preferred_contact: preferred_contact,
+      ph_number: ph_number,
+      website: website,
+      opt_in: opt_in,
+      active: active,
+      type: type,
+    }
+  }).then(function(result) {
+    const user = result[0];
+    const created = result[1];
 
-    res.json(user);
-  });
+    if (!created) { // false if author already exists and was not created.
+      res.end(JSON.stringify({userCreation: false, message: 'exists'}));
+    }
+
+    res.end(JSON.stringify({userCreation: true}));
+  })
 });
 
 router.get('/users', middleware.checkToken, function(req, res) {
