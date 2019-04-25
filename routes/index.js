@@ -52,9 +52,6 @@ router.post('/users', middleware.checkToken, function(req, res) {
     where: {
       email: email,
     },
-    where: {
-      ph_number: ph_number,
-    },
     defaults: {
       name: name,
       first_name: first_name,
