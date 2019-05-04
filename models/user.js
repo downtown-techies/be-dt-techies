@@ -20,6 +20,11 @@ module.exports = function(sequelize, DataTypes) {
     ph_number: DataTypes.STRING,
     website: DataTypes.STRING,
     opt_in: DataTypes.BOOLEAN,
+    follow_up: DataTypes.BOOLEAN,
+    skills: DataTypes.ARRAY(DataTypes.STRING),
+    gig_category: DataTypes.ARRAY(DataTypes.STRING),
+    gig_needs: DataTypes.ARRAY(DataTypes.STRING),
+    intro_description: DataTypes.STRING,
     location: DataTypes.ARRAY(DataTypes.DECIMAL)
   }, {
     classMethods: {
