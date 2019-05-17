@@ -23,8 +23,6 @@ router.get('/authenticate', function(req, res){
 });
 
 router.post('/users', middleware.checkToken, function(req, res) {
-  console.log('req', req.body);
-
   const {
     first_name,
     last_name,
@@ -74,11 +72,16 @@ router.post('/users', middleware.checkToken, function(req, res) {
       type: type,
     }
   }).then(function(result) {
-    const user = result[0];
+    const { _options: options } = result[0];
     const created = result[1];
 
     if (!created) { // false if author already exists and was not created.
-      res.end(JSON.stringify({userCreation: false, message: 'exists'}));
+      const { isNewRecord } = options;
+      if (!isNewRecord) {
+        res.end(JSON.stringify({userCreation: false, message: 'exists'}));
+      } 
+
+      res.end(JSON.stringify({userCreation: false, message: 'error'}));
     }
 
     res.end(JSON.stringify({userCreation: true}));
