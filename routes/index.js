@@ -91,12 +91,24 @@ router.get('/users', middleware.checkToken, function(req, res) {
   });
 });
 
-router.get('/users/:id', middleware.checkToken, function(req, res) {
-  models.User.findOne({
+// router.get('/users/:id', middleware.checkToken, function(req, res) {
+//   models.User.findOne({
+//     where: {
+//       id: req.params.id
+//     }
+//   }).then(function(user) {
+//     res.json(user);
+//   });
+// });
+
+router.delete('/users/:id', function(req, res) {
+
+  models.User.destroy({
     where: {
       id: req.params.id
     }
   }).then(function(user) {
+    console.log(user);
     res.json(user);
   });
 });
@@ -159,15 +171,6 @@ router.post('/meetups', middleware.checkToken, function(req, res) {
 // });
 // 
 // // delete a single todo
-// router.delete('/todo/:id', function(req, res) {
-//   models.Todo.destroy({
-//     where: {
-//       id: req.params.id
-//     }
-//   }).then(function(todo) {
-//     res.json(todo);
-//   });
-// });
 
 module.exports = router;
 
