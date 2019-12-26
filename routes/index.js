@@ -1,150 +1,60 @@
 const express = require('express');
 const router = express.Router();
-const models = require('../models/index');
 const middleware = require('../middleware/jwtMiddleware.js');
 const authenticate = require('./authenticate');
+const users = require('./users');
+const meetups = require('./meetups');
 
 router.get('/', function(req, res, next) {
   res.json({ api: 'v0.1.0' });
 });
 
-router.get('/authenticate', function(req, res){
-  let token = req.headers.authorization;
+// ******* authentication ******** //
+router.get('/authenticate', authenticate.authenticateUser);
 
-  if (token && token.startsWith('Bearer ')) {
-    token = token.slice(7, token.length);
-  }
+// ******* users ******** //
+router.get('/users', middleware.checkToken, users.getUsers);
+router.post('/users', users.createUser);
+// router.delete('/users/:id', middleware.checkToken, users.deleteUser);
 
-  const jwtKey = middleware.getToken(token);
+// ******* meetups ******** //
+router.get('/meetups', meetups.getMeetups);
+// router.post('/meetups', middleware.checkToken, meetups.createMeetups);
 
-  res.json({
-    jwtKey
-  });
-});
+module.exports = router;
 
-router.post('/users', middleware.checkToken, function(req, res) {
-  const {
-    first_name,
-    last_name,
-    email,
-    address_line_1,
-    address_line_2,
-    address_line_3,
-    address_line_4,
-    city,
-    state,
-    state_abbr,
-    postal_code,
-    country,
-    preferred_contact,
-    ph_number,
-    website,
-    opt_in,
-    active,
-    type
-  } = req.body;
 
-  const name = `${first_name} ${last_name}`;
+// ************* notes
 
-  models.User.findOrCreate({
-    where: {
-      email: email,
-    },
-    defaults: {
-      name: name,
-      first_name: first_name,
-      last_name: last_name,
-      email: email,
-      address_line_1: address_line_1,
-      address_line_2: address_line_2,
-      address_line_3: address_line_3,
-      address_line_4: address_line_4,
-      city: city,
-      state: state,
-      state_abbr: state_abbr,
-      postal_code: postal_code,
-      country: country,
-      preferred_contact: preferred_contact,
-      ph_number: ph_number,
-      website: website,
-      opt_in: opt_in,
-      active: active,
-      type: type,
-    }
-  }).then(function(result) {
-    const { _options: options } = result[0];
-    const created = result[1];
-
-    if (!created) { // false if author already exists and was not created.
-      const { isNewRecord } = options;
-      if (!isNewRecord) {
-        res.end(JSON.stringify({userCreation: false, message: 'exists'}));
-      } 
-
-      res.end(JSON.stringify({userCreation: false, message: 'error'}));
-    }
-
-    res.end(JSON.stringify({userCreation: true}));
-  })
-});
-
-router.get('/users', middleware.checkToken, function(req, res) {
-  models.User.findAll({}).then(function(users) {
-    res.json(users);
-  });
-});
-
-// router.get('/users/:id', middleware.checkToken, function(req, res) {
-//   models.User.findOne({
-//     where: {
-//       id: req.params.id
-//     }
-//   }).then(function(user) {
-//     res.json(user);
-//   });
-// });
-
-router.delete('/users/:id', function(req, res) {
-
-  models.User.destroy({
-    where: {
-      id: req.params.id
-    }
-  }).then(function(user) {
-    console.log(user);
-    res.json(user);
-  });
-});
-
-router.get('/meetups', function(req, res) {
-  models.MeetupGroup.findAll({}).then(function(meetupgroups) {
-    res.json(meetupgroups);
-  });
-});
-
-router.post('/meetups', middleware.checkToken, function(req, res) {
-  models.MeetupGroup.create({
-    name: req.body.name,
-    address_line_1: req.body.address_line_1,
-    address_line_2: req.body.address_line_2,
-    address_line_3: req.body.address_line_3,
-    address_line_4: req.body.address_line_4,
-    city: req.body.city,
-    state: req.body.state,
-    state_abbr: req.body.state_abbr,
-    postal_code: req.body.postal_code,
-    country: req.body.country,
-    organizer: req.body.organizer,
-    organizer_id: req.body.organizer_id,
-    url: req.body.url,
-    sponsors: req.body.sponsors,
-    contact_email: req.body.contact_email,
-    contact_ph: req.body.contact_ph 
-  }).then(function(meetupGroup) {
-    res.json(meetupGroup);
-  });
-});
- 
+// var main = require('./routes/main');
+// var todo = require('./routes/todo');
+// var todoRouter = express.Router();
+// app.use('/todos', todoRouter);
+// app.get('/', main.index);
+// todoRouter.get('/',todo.all);
+// todoRouter.post('/create', todo.create);
+// todoRouter.post('/destroy/:id', todo.destroy);
+// todoRouter.post('/edit/:id', todo.edit);
+// 
+// [/routes/todo.js]
+// module.exports ={
+//   all: function(req, res){
+//     res.send('All todos');
+//   },
+//   viewOne: function(req, res){
+//     console.log('Viewing '+req.params.id);
+//   },
+//   create: function(req, res){
+//     console.log('Todo created');
+//   },
+//   destroy: function(req, res){
+//     console.log('Todo deleted');
+//   },
+//   edit: function(req, res){
+//     console.log('Todo '+req.params.id+' updated');
+//   }
+// };
+//
 // // add new todo
 // router.post('/users', function(req, res) {
 //   models.Todo.create({
@@ -174,6 +84,13 @@ router.post('/meetups', middleware.checkToken, function(req, res) {
 // });
 // 
 // // delete a single todo
-
-module.exports = router;
-
+//
+// router.get('/users/:id', middleware.checkToken, function(req, res) {
+//   models.User.findOne({
+//     where: {
+//       id: req.params.id
+//     }
+//   }).then(function(user) {
+//     res.json(user);
+//   });
+// });
