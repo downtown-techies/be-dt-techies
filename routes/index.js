@@ -11,49 +11,20 @@ router.get('/', function(req, res, next) {
 
 // ******* authentication ******** //
 router.get('/authenticate', authenticate.authenticateUser);
+router.get('/login', authenticate.loginUser);
 
 // ******* users ******** //
 router.get('/users', middleware.checkToken, users.getUsers);
 router.post('/users', users.createUser);
-// router.delete('/users/:id', middleware.checkToken, users.deleteUser);
+router.delete('/users/:id', middleware.checkToken, users.deleteUser);
 
 // ******* meetups ******** //
 router.get('/meetups', meetups.getMeetups);
-// router.post('/meetups', middleware.checkToken, meetups.createMeetups);
+router.post('/meetups', middleware.checkToken, meetups.createMeetups);
 
 module.exports = router;
 
-
 // ************* notes
-
-// var main = require('./routes/main');
-// var todo = require('./routes/todo');
-// var todoRouter = express.Router();
-// app.use('/todos', todoRouter);
-// app.get('/', main.index);
-// todoRouter.get('/',todo.all);
-// todoRouter.post('/create', todo.create);
-// todoRouter.post('/destroy/:id', todo.destroy);
-// todoRouter.post('/edit/:id', todo.edit);
-// 
-// [/routes/todo.js]
-// module.exports ={
-//   all: function(req, res){
-//     res.send('All todos');
-//   },
-//   viewOne: function(req, res){
-//     console.log('Viewing '+req.params.id);
-//   },
-//   create: function(req, res){
-//     console.log('Todo created');
-//   },
-//   destroy: function(req, res){
-//     console.log('Todo deleted');
-//   },
-//   edit: function(req, res){
-//     console.log('Todo '+req.params.id+' updated');
-//   }
-// };
 //
 // // add new todo
 // router.post('/users', function(req, res) {

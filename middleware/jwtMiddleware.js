@@ -1,8 +1,6 @@
 const jwt = require('jsonwebtoken');
 
 const getToken = (token) => {
-  console.log(token);
-
   if (token !== undefined) {
     return token = jwt.sign({}, token, {
       expiresIn: 3600
