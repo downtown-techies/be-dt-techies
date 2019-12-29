@@ -1,20 +1,6 @@
 const middleware = require('../../middleware/jwtMiddleware.js');
+const models = require('../../models/index');
 const passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
-
-passport.use(new LocalStrategy(
-  function(username, password, done) {
-    User.findOne({ username: username }, function(err, user) {
-      if (err) { return done(err); }
-      if (!user) {
-        return done(null, false, { message: 'Incorrect username.' });
-      }
-      if (!user.validPassword(password)) {
-        return done(null, false, { message: 'Incorrect password.' });
-      }
-      return done(null, user);
-    });
-  }
-));
 
 module.exports = {
   authenticateUser: function(req, res){
@@ -31,16 +17,23 @@ module.exports = {
     });
   },
   loginUser: function(req, res){
-    let token = req.headers.authorization;
-  
-    if (token && token.startsWith('Bearer ')) {
-      token = token.slice(7, token.length);
-    }
-  
-    const jwtKey = middleware.getToken(token);
-  
-    res.json({
-      //jwtKey
-    });
+    const {
+      username,
+      password
+    } = req.body;
+
+    let account_id, account_type;
+
+    console.log('body: ', req.body);
+    console.log('username: ', username);
+    console.log('password: ', password);
+
+    models.UserLogin.findOne({
+      where: {
+        username: username,
+      }
+    }).then(function(resulte){
+      console.log(true);
+    })
   }
 }

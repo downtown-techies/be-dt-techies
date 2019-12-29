@@ -16,7 +16,6 @@ module.exports = {
         state_abbr: 'NC',
         postal_code: '27703',
         country: 'USA',
-        account_id: 000001',
         account_created: true,
         preferred_contact: 'email',
         ph_number: '9198675309',
@@ -34,7 +33,6 @@ module.exports = {
         updatedAt: new Date(),
       }], {});
   },
-
   down: function (queryInterface, Sequelize) {
     return queryInterface.bulkDelete('Users', null, {});
   }
