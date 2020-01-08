@@ -1,6 +1,6 @@
 const middleware = require('../../middleware/jwtMiddleware.js');
 const models = require('../../models/index');
-const passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
+const passport = require('passport');
 
 module.exports = {
   authenticateUser: function(req, res){
@@ -16,24 +16,51 @@ module.exports = {
       jwtKey
     });
   },
-  loginUser: function(req, res){
-    const {
-      username,
-      password
-    } = req.body;
-
-    let account_id, account_type;
-
-    console.log('body: ', req.body);
-    console.log('username: ', username);
-    console.log('password: ', password);
-
-    models.UserLogin.findOne({
-      where: {
-        username: username,
-      }
-    }).then(function(resulte){
-      console.log(true);
-    })
-  }
+  loginUser: passport.authenticate('local',
+    function(req, res, next) {
+      console.log('req: ', req);
+      console.log('res: ', res);
+      console.log('next: ', next);
+      // return res;
+    }
+  )
+  //   successRedirect: '/accessed',
+  //   failureRedirect: '/access',
+  //   session: false
+  //
+  
 }
+
+
+  // ******************
+  // code holding cell
+  // ******************
+
+  // loginUser: function(req, res){
+  //   const {
+  //     username,
+  //     password
+  //   } = req.body;
+
+  //   let account_id, account_type;
+
+  //   models.UserLogin.findOne({
+  //     where: {
+  //       username: username,
+  //     }
+  //   }).then(function(results){
+  //     if (results === null){
+  //       console.log('user does not exist');
+  //       return;
+  //     } else if (password === results.password){
+  //       console.log(true);
+  //       res.json({
+  //         accountId: account_id,
+  //         accountType: account_type,
+  //       });
+  //       return;
+  //     }
+  //     console.log(false);
+  //     return;
+  //   })
+  // }

@@ -7,8 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     username: DataTypes.STRING,
   }, {});
-  UserLogin.associate = function(models) {
-    UserLogin.belongsTo(models.User);
-  };
+  // UserLogin.associate = function(models) {
+  //   UserLogin.belongsTo(models.User);
+  // };
   return UserLogin;
 };
