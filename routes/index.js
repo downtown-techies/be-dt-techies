@@ -3,6 +3,7 @@ const router = express.Router();
 const middleware = require('../middleware/jwtMiddleware.js');
 const authenticate = require('./authenticate');
 const users = require('./users');
+const account = require('./account');
 const meetups = require('./meetups');
 
 router.get('/', function(req, res, next) {
@@ -17,6 +18,9 @@ router.post('/login', authenticate.loginUser);
 router.get('/users', middleware.checkToken, users.getUsers);
 router.post('/users', users.createUser);
 router.delete('/users/:id', middleware.checkToken, users.deleteUser);
+
+// ******* account ******** //
+router.post('/createaccount', account.createAccount);
 
 // ******* meetups ******** //
 router.get('/meetups', meetups.getMeetups);
