@@ -22,6 +22,14 @@
     },
     "bcrypt": "^3.0.6",
     "body-parser": "^1.18.3",
+    "cache-base": {
+      "version": "1.0.1",
+      "dependencies": {
+        "set-value": {
+          "version": ">=2.0.1"
+        }
+      }
+    },
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "dotenv": "^7.0.0",
