@@ -15,10 +15,7 @@ passport.use(new LocalStrategy(
       if(user.password !== password){
         return done(null, false, { message: 'Incorrect User/Password' });
       }
-      // if (!user.validPassword(password)) {
-      //   console.log('wrong password');
-      // }
-      return done(null, user);
+      return done(null, user, { message: 'username' } );
     })
   }
 ));
