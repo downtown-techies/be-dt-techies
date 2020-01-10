@@ -1,4 +1,5 @@
 const models = require('../../models/index');
+const bcrypt = require('bcrypt');
 
 module.exports = {
   getAccounts: function(req, res) {
@@ -13,6 +14,8 @@ module.exports = {
       type,
       username,
     } = req.body;
+
+    let hash = bcrypt.hashSync(password, 14);
   
     models.UserLogin.findOrCreate({
       where: {
@@ -20,7 +23,7 @@ module.exports = {
       },
       defaults: {
         email: email,
-        password: password,
+        password: hash,
         type: type,
         username: username,
       }
@@ -28,8 +31,9 @@ module.exports = {
       const { _options: options } = result[0];
       const created = result[1];
   
-      if (!created) { // false if author already exists and was not created.
+      if (!created) { 
         const { isNewRecord } = options;
+        
         if (!isNewRecord) {
           res.end(JSON.stringify({userCreation: false, message: 'exists'}));
         } 

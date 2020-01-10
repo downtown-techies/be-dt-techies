@@ -1,6 +1,7 @@
 const middleware = require('../../middleware/jwtMiddleware.js');
 const models = require('../../models/index');
 const passport = require('passport');
+const bcrypt = require('bcrypt');
 
 module.exports = {
    authenticateUser: function(req, res){
@@ -18,7 +19,8 @@ module.exports = {
   loginUser: function(req, res) {
     const {
       username: userUserName
-      , password: userPW} = req.body;
+      , password: userPW
+    } = req.body;
 
     models.UserLogin.findOne({
       where: { username: userUserName }
@@ -32,25 +34,26 @@ module.exports = {
           message: 'Incorrect username/password' 
         });
         return;
-      }
-      if(password !== userPW){
+      } else if (bcrypt.compareSync(userPW, password)) {
+
+        const { id
+          , account_type: accountType
+          , account_id: accountId
+        } = user;
+        const responseBody = {
+          'id': id,
+          'username': username,
+          'accountType': accountType,
+          'accountId': accountId,
+        }
+        res.status(200).json(responseBody);
+      } else {
         res.status(200).json({
           error: 1,
           message: 'Incorrect username/password' 
         });
         return
       }
-      const { id
-        , account_type: accountType
-        , account_id: accountId
-      } = user;
-      const responseBody = {
-        'id': id,
-        'username': username,
-        'accountType': accountType,
-        'accountId': accountId,
-      }
-      res.json(responseBody);
     })
   }
 }
