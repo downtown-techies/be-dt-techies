@@ -20,6 +20,7 @@ router.post('/users', users.createUser);
 router.delete('/users/:id', middleware.checkToken, users.deleteUser);
 
 // ******* account ******** //
+router.get('/accounts', account.getAccounts);
 router.post('/createaccount', account.createAccount);
 
 // ******* meetups ******** //
