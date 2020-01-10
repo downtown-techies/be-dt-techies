@@ -1,8 +1,24 @@
 const jwt = require('jsonwebtoken');
 
-const getToken = (token) => {
-  if (token !== undefined) {
-    return token = jwt.sign({}, token, {
+const getToken = (params) => {
+  const {
+    key, 
+    id, 
+    username,
+    accountType,
+    accountId
+  } = params;
+
+  const userInfo = {
+    accountId: accountId,
+    username: username,
+    accountType: accountType
+  }
+
+  let token;
+
+  if (key !== undefined) {
+    return token = jwt.sign({data: userInfo}, key, {
       expiresIn: 3600
     });
   };

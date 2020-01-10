@@ -5,21 +5,13 @@ const bcrypt = require('bcrypt');
 
 module.exports = {
    authenticateUser: function(req, res){
-       let token = req.headers.authorization;
-  
-     if (token && token.startsWith('Bearer ')) {
-       token = token.replace('Bearer ', '');
-     }
-     const jwtKey = middleware.getToken(token);
-  
-     res.json({
-       jwtKey
-    });
+     return
   },
   loginUser: function(req, res) {
     const {
       username: userUserName
       , password: userPW
+      , key
     } = req.body;
 
     models.UserLogin.findOne({
@@ -40,13 +32,18 @@ module.exports = {
           , account_type: accountType
           , account_id: accountId
         } = user;
-        const responseBody = {
+
+        const params = {
+          'key': key,
           'id': id,
           'username': username,
           'accountType': accountType,
           'accountId': accountId,
         }
-        res.status(200).json(responseBody);
+
+        const jwtKey = middleware.getToken(params);
+
+        res.status(200).json(jwtKey);
       } else {
         res.status(200).json({
           error: 1,

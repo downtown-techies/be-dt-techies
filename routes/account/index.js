@@ -6,7 +6,6 @@ module.exports = {
     models.UserLogin.findAll({}).then(function(accounts) { res.json(accounts)
     });
   },
-
   createAccount: function(req, res) {
     const {
       email,
@@ -14,6 +13,14 @@ module.exports = {
       type,
       username,
     } = req.body;
+
+    if (password.length < 10) {
+      res.end(JSON.stringify({
+        userCreation: false
+        , message: 'too short'
+      }));
+      return
+    }
 
     let hash = bcrypt.hashSync(password, 14);
   
