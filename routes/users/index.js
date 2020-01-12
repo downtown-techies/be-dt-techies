@@ -1,4 +1,5 @@
 const models = require('../../models/index');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
   getUsers: function(req, res) {
@@ -72,13 +73,45 @@ module.exports = {
     })
   },
   deleteUser: function(req, res) {
-    models.User.destroy({
-      where: {
-        id: req.params.id
+    let token = req.body['authorization'] || req.headers['authorization'];
+    let accountId = 24;
+    let reqId;
+
+    if (token && token.startsWith('Bearer ')) {
+      token = token.slice(7, token.length);
+    }
+
+    if (req.params.id){
+      reqId = Number(req.params.id);
+    }
+
+    jwt.verify(token, process.env.PUBLIC_KEY, (err, decoded) => {
+      if (decoded && decoded.data){
+        accountId = decoded.data.accountId;
       }
-    }).then(function(user) {
-      console.log(user);
-      res.json(user);
-    });
-  }
+    })
+
+
+    models.User.findOne({
+      where: {
+        id: reqId 
+      }
+    }).then(function(user){
+      if(user && user.dataValues && Number(user.dataValues.account_id) !== Number(accountId)) {
+        models.User.destroy({
+          where: {
+            id: reqId
+          }
+        }).then(function(account) {
+          res.json(account);
+        });
+      } else {
+        return res.json({
+          success: false,
+          message: 'User not deleted'
+        });
+      }
+    })
+
+  },
 }

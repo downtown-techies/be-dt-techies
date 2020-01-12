@@ -1,6 +1,6 @@
 'use strict';
 module.exports = function(sequelize, DataTypes) {
-  var User = sequelize.define('User', {
+  const User = sequelize.define('User', {
     account_created: DataTypes.BOOLEAN,
     account_id: DataTypes.INTEGER,
     active: DataTypes.BOOLEAN,
@@ -28,11 +28,11 @@ module.exports = function(sequelize, DataTypes) {
     gig_needs: DataTypes.ARRAY(DataTypes.STRING),
     intro_description: DataTypes.STRING,
     location: DataTypes.ARRAY(DataTypes.DECIMAL)
-  }, {
-    classMethods: {
-      associate: function(models) {
-      }
-    }
-  });
+  }, {});
+  //   classMethods: {
+  //     associate: function(models) {
+  //     }
+  //   }
+  // });
   return User;
 };

@@ -10,7 +10,7 @@ const getToken = (params) => {
   } = params;
 
   const userInfo = {
-    accountId: accountId,
+    accountId: id,
     username: username,
     accountType: accountType
   }
@@ -22,6 +22,39 @@ const getToken = (params) => {
       expiresIn: 3600
     });
   };
+};
+
+const checkAdmin = (req, res, next) => {
+  let token = req.body['authorization'] || req.headers['authorization'];
+
+  if (token && token.startsWith('Bearer ')) {
+    token = token.slice(7, token.length);
+  }
+
+  if (token) {
+    jwt.verify(token, process.env.PUBLIC_KEY, (err, decoded) => {
+      if (err) {
+        return res.json({
+          success: false,
+          message: 'Token is not valid'
+        });
+      } else if (decoded && decoded.data) {
+        if(decoded.data.accountType === 'admin'){
+          next();
+        } else {
+          return res.json({
+            success: false,
+            message: 'Token is not valid'
+          });
+        }
+      }
+    });
+  } else {
+    return res.json({
+      success: false,
+      message: 'Auth Token must be supplied'
+    });
+  }
 };
 
 const checkToken = (req, res, next) => {
@@ -53,7 +86,35 @@ const checkToken = (req, res, next) => {
   }
 };
 
+const sameEmail = (req, res, next) => {
+  let token = req.body['authorization'] || req.headers['authorization'];
+
+  if (token && token.startsWith('Bearer ')) {
+    token = token.slice(7, token.length);
+  }
+
+  if (token) {
+    jwt.verify(token, process.env.PUBLIC_KEY, (err, decoded) => {
+      if (err) {
+        return res.json({
+          success: false,
+          message: 'Token is not valid'
+        });
+      } else {
+        req.decoded = decoded;
+        next();
+      }
+    });
+  } else {
+    return res.json({
+      success: false,
+      message: 'Auth Token must be supplied'
+    });
+  }
+};
+
 module.exports = {
   getToken: getToken,
+  checkAdmin: checkAdmin,
   checkToken: checkToken
 }
