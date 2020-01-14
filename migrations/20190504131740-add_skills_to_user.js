@@ -10,7 +10,6 @@ module.exports = {
        )
     ]);
   },
-
   down: (queryInterface, Sequelize) => {
     return Promise.all([
       queryInterface.removeColumn(

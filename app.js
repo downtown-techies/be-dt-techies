@@ -5,8 +5,6 @@ const express = require('express')
  , cookieParser = require('cookie-parser')
  , dotenv = require('dotenv')
  , cors = require('cors')
- , passport = require('passport')
- , passportConfig = require('./config/passport')
  ;
 
 let jwt = require('jsonwebtoken')
@@ -21,8 +19,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
 }));
-app.use(passport.initialize());
-app.use(passport.session());
 
 // routes
 app.use('/', routes);
