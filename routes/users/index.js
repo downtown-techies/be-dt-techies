@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 module.exports = {
   getUsers: function(req, res) {
-    models.User.findAll({}).then(function(users) {
+    models.Users.findAll({}).then(function(users) {
      res.json(users)
     });
   },
@@ -31,7 +31,7 @@ module.exports = {
   
     const name = `${first_name} ${last_name}`;
   
-    models.User.findOrCreate({
+    models.Users.findOrCreate({
       where: {
         email: email,
       },
@@ -92,13 +92,13 @@ module.exports = {
     })
 
 
-    models.User.findOne({
+    models.Users.findOne({
       where: {
         id: reqId 
       }
     }).then(function(user){
       if(user && user.dataValues && Number(user.dataValues.account_id) !== Number(accountId)) {
-        models.User.destroy({
+        models.Users.destroy({
           where: {
             id: reqId
           }

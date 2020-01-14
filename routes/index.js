@@ -5,6 +5,7 @@ const authenticate = require('./authenticate');
 const users = require('./users');
 const account = require('./account');
 const meetups = require('./meetups');
+const tickets = require('./tickets');
 
 router.get('/', function(req, res, next) {
   res.json({ api: 'v0.1.0' });
@@ -26,6 +27,11 @@ router.delete('/delete_account/:id', middleware.checkAdmin, account.deleteAccoun
 
 // ******* meetups ******** //
 router.get('/meetups', meetups.getMeetups);
+
+// ******* meetups ******** //
+router.post('/tickets', tickets.createTicket);
+router.get('/tickets', tickets.getTickets);
+
 // fix below
 // router.post('/meetups', middleware.checkToken, meetups.createMeetups);
 

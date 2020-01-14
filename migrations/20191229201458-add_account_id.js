@@ -15,7 +15,6 @@ module.exports = {
       )
     ]);
   },
-
   down: (queryInterface, Sequelize) => {
     return Promise.all([
       queryInterface.removeColumn(
@@ -29,6 +28,6 @@ module.exports = {
          Sequelize.INTEGER
       )
     ]);
-  }
+  } 
 };
 
