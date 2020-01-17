@@ -9,6 +9,8 @@ module.exports = function(sequelize, DataTypes) {
     technical_requirements: DataTypes.ARRAY(DataTypes.STRING),
     project_length: DataTypes.ARRAY(DataTypes.STRING),
     project_description: DataTypes.TEXT,
+    category_category: DataTypes.STRING,
+    complete: DataTypes.BOOLEAN
   }, {});
   return Tickets;
 };

@@ -16,6 +16,8 @@ module.exports = {
       gig_category,
       technical_requirements,
       project_length,
+      category_category,
+      complete=false,
       project_description,
     } = req.body;
   
@@ -30,6 +32,8 @@ module.exports = {
         gig_category: gig_category,
         technical_requirements: technical_requirements,
         project_length: project_length,
+        category_category: category_category,
+        complete: complete,
         project_description: project_description,
     }).then(function(result) {
       res.end(JSON.stringify({ticketCreation: true, ticket: result.dataValues}));
