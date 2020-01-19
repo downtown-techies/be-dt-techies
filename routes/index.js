@@ -17,8 +17,10 @@ router.post('/login', authenticate.loginUser);
 
 // ******* users ******** //
 router.get('/users', middleware.checkAdmin, users.getUsers);
-router.post('/users', users.createUser);
-router.delete('/users/:id', middleware.checkAdmin, users.deleteUser);
+router.get('/user/account_info/:account_id', middleware.checkToken, users.getUserById); // , middleware.checkToken,  users.getUserById);
+router.post('/user_add', users.createUser);
+router.post('/user/update/:account_id', middleware.checkToken,  users.updateUser);
+router.delete('/users/delete/:id', middleware.checkAdmin, users.deleteUser);
 
 // ******* account ******** //
 router.get('/accounts', middleware.checkAdmin, account.getAccounts);

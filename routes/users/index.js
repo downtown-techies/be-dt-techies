@@ -72,9 +72,10 @@ module.exports = {
       res.end(JSON.stringify({userCreation: true}));
     })
   },
+
   deleteUser: function(req, res) {
     let token = req.body['authorization'] || req.headers['authorization'];
-    let accountId = 24;
+    let accountId;
     let reqId;
 
     if (token && token.startsWith('Bearer ')) {
@@ -90,8 +91,6 @@ module.exports = {
         accountId = decoded.data.accountId;
       }
     })
-
-
     models.Users.findOne({
       where: {
         id: reqId 
@@ -112,6 +111,52 @@ module.exports = {
         });
       }
     })
+  },
+  getUserById: function(req, res) {
+    console.log('req: ', req);
+    let accountId;
+    if(req && req.params){
+      accountId = req.params.account_id;
+    }
 
+    models.Users.findOne({
+        where: {
+           account_id: accountId 
+        }
+     }).then(function(user) {
+       if (!user) {
+         const message = {message: 'Cannot find User'};
+         res.status(404).json({message});
+       } else {
+         res.end(res.json(user));
+       }
+     });
+  },
+  updateUser: function(req, res) {
+    let token = req.body['authorization'] || req.headers['authorization'];
+
+    if (token && token.startsWith('Bearer ')) {
+      token = token.slice(7, token.length);
+    }
+
+    if (req.params.id){
+      reqId = Number(req.params.id);
+    }
+
+    // jwt.verify(token, process.env.PUBLIC_KEY, (err, decoded) => {
+    //   if (decoded && decoded.data){
+    //     accountId = decoded.data.accountId;
+    //   }
+    // })
+
+    // models.Users.update({
+    //   foo: updatedattr,
+    // }, {
+    //   where: {id: 1},
+    //   returning: true,
+    //   plain: true
+    // }).then(function(user){
+    //   console.log('updated: ', true)
+    // })
   },
 }

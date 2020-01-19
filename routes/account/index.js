@@ -52,7 +52,7 @@ module.exports = {
       }
       
       if(result && result[0] && result[0].dataValues){
-        models.User.update(
+        models.Users.update(
           {account_id: result[0].dataValues.id},
           {where: {email: result[0].dataValues.email}}
         )
