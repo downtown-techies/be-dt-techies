@@ -17,9 +17,9 @@ router.post('/login', authenticate.loginUser);
 
 // ******* users ******** //
 router.get('/users', middleware.checkAdmin, users.getUsers);
-router.get('/user/account_info/:account_id', middleware.checkToken, users.getUserById); // , middleware.checkToken,  users.getUserById);
+router.get('/user/account_info/:id', middleware.checkToken, users.getUserById);
 router.post('/user_add', users.createUser);
-router.post('/user/update/:account_id', middleware.checkToken,  users.updateUser);
+router.post('/user/update/:id', middleware.checkToken, users.updateUser);
 router.delete('/users/delete/:id', middleware.checkAdmin, users.deleteUser);
 
 // ******* account ******** //

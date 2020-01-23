@@ -28,7 +28,8 @@ module.exports = {
         return;
       } else if (bcrypt.compareSync(userPW, password)) {
 
-        const { id
+        const { 
+          id
           , account_type: accountType
           , account_id: accountId
         } = user;

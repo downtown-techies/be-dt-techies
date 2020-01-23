@@ -10,7 +10,7 @@ const getToken = (params) => {
   } = params;
 
   const userInfo = {
-    accountId: id,
+    id: id,
     username: username,
     accountType: accountType
   }
