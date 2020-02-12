@@ -120,15 +120,25 @@ module.exports = {
     if(req && req.params){
       id = req.params.id;
     }
-
     models.Users.findOne({
         where: {
            id: id 
         }
      }).then(function(user) {
+       console.log(id);
        if (!user) {
-         const message = {message: 'Cannot find User'};
-         res.status(404).json({message});
+         models.UserLogin.findOne({
+           where: {
+             id: id
+           }
+         }).then(function(account){
+           if(account){
+             res.end(res.json(account));
+           } else {
+             const message = {message: 'Cannot find User'};
+             res.status(404).json({message});
+           }
+         })
        } else {
          res.end(res.json(user));
        }

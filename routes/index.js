@@ -14,13 +14,14 @@ router.get('/', function(req, res, next) {
 // ******* authentication ******** //
 router.get('/authenticate', authenticate.authenticateUser);
 router.post('/login', authenticate.loginUser);
+router.post('/reset', authenticate.resetPassword);
 
 // ******* users ******** //
 router.get('/users', middleware.checkAdmin, users.getUsers);
 router.get('/user/account_info/:id', middleware.checkToken, users.getUserById);
 router.post('/user_add', users.createUser);
 router.post('/user/update/:id', middleware.checkToken, users.updateUser);
-router.delete('/users/delete/:id', middleware.checkAdmin, users.deleteUser);
+router.delete('/user/delete/:id', middleware.checkAdmin, users.deleteUser);
 
 // ******* account ******** //
 router.get('/accounts', middleware.checkAdmin, account.getAccounts);
