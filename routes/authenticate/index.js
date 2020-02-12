@@ -80,37 +80,35 @@ module.exports = {
           , account_type: accountType
           , account_id: accountId
         } = user;
-        console.log(user);
 
         const params = {
           'key': key,
           'id': id,
           'username': username,
-          'oldPassword': oldPassord,
+          'oldPassword': oldPassword,
+          'newPassword': newPassword,
           'accountType': accountType,
           'accountId': accountId,
+          'message': 'Updated successfully',
         }
-        models.Users.update({
-          password: oldPassword,
+        const hash = bcrypt.hashSync(newPassword, 14);
+
+        models.UserLogin.update({
+          password: hash,
         }, {
           where: {
             id: id
           }
         }).then(function(user){
-          res.end(JSON.stringify({user: user, message: 'updated'}));
-          return
+          console.log('hit here')
+          const jwtKey = middleware.getToken(params);
+          res.status(200).json(jwtKey);
         })
-
-        // update password action
-
-        const jwtKey = middleware.getToken(params);
-        res.status(200).json(jwtKey);
       } else {
         res.status(200).json({
           error: 1,
           message: 'Incorrect username/password' 
         });
-        return
       }
     })
   }

@@ -23,7 +23,7 @@ module.exports = {
       return
     }
 
-    let hash = bcrypt.hashSync(password, 14);
+    const hash = bcrypt.hashSync(password, 14);
 
 
     models.UserLogin.findOrCreate({

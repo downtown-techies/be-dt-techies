@@ -6,13 +6,17 @@ const getToken = (params) => {
     id, 
     username,
     accountType,
-    accountId
+    accountId,
+    message 
   } = params;
+
+  console.log(message);
 
   const userInfo = {
     id: id,
     username: username,
-    accountType: accountType
+    accountType: accountType,
+    message: message
   }
 
   let token;
